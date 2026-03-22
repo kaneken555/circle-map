@@ -67,6 +67,7 @@ function AppContent() {
             centerPoint={centerPoint}
             validRadiusKm={validRadiusKm}
             onMapClick={handleMapClick}
+            onCurrentLocation={handleMapClick}
           />
         </div>
 

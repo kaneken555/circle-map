@@ -1,5 +1,10 @@
 "use client";
 
+const MIN_RADIUS = 0.1;
+const MAX_RADIUS = 200;
+const SLIDER_MAX = 50;
+const STEP = 0.1;
+
 type Props = {
   value: string;
   error: string;
@@ -8,6 +13,20 @@ type Props = {
 };
 
 export default function RadiusInput({ value, error, isDirty, onChange }: Props) {
+  const handleStep = (direction: 1 | -1) => {
+    const current = parseFloat(value);
+    const base = isNaN(current) ? 0 : current;
+    const next = Math.round((base + direction * STEP) * 10) / 10;
+    const clamped = Math.min(MAX_RADIUS, Math.max(MIN_RADIUS, next));
+    onChange(String(clamped));
+  };
+
+  const sliderValue = Math.min(MAX_RADIUS, Math.max(MIN_RADIUS, parseFloat(value) || MIN_RADIUS));
+
+  const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  };
+
   return (
     <div className="flex flex-col gap-1">
       <label className="text-sm font-medium text-gray-700">半径</label>
@@ -18,10 +37,38 @@ export default function RadiusInput({ value, error, isDirty, onChange }: Props) 
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="例: 3.2"
-          className="w-32 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-24 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <div className="flex flex-col">
+          <button
+            type="button"
+            onClick={() => handleStep(1)}
+            className="px-2 py-0.5 text-xs border border-gray-300 rounded-t bg-gray-50 hover:bg-gray-100 leading-none"
+            aria-label="半径を増やす"
+          >
+            ▲
+          </button>
+          <button
+            type="button"
+            onClick={() => handleStep(-1)}
+            className="px-2 py-0.5 text-xs border-x border-b border-gray-300 rounded-b bg-gray-50 hover:bg-gray-100 leading-none"
+            aria-label="半径を減らす"
+          >
+            ▼
+          </button>
+        </div>
         <span className="text-sm text-gray-600">km</span>
       </div>
+      <input
+        type="range"
+        min={MIN_RADIUS}
+        max={SLIDER_MAX}
+        step={STEP}
+        value={Math.min(SLIDER_MAX, sliderValue)}
+        onChange={handleSlider}
+        className="w-full accent-blue-600"
+        aria-label="半径スライダー"
+      />
       {isDirty && error && (
         <p className="text-xs text-red-600">{error}</p>
       )}
