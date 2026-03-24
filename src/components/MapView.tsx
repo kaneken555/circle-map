@@ -63,6 +63,8 @@ export default function MapView({ centerPoint, validRadiusKm, onMapClick, onCurr
         defaultCenter={INITIAL_CENTER}
         defaultZoom={initialZoom}
         gestureHandling="greedy"
+        streetViewControl={false}
+        fullscreenControl={false}
         onClick={handleClick}
         style={{ width: "100%", height: "100%" }}
       >
