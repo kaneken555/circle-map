@@ -1,5 +1,5 @@
 const MIN_RADIUS = 0.1;
-const MAX_RADIUS = 200;
+const MAX_RADIUS = 50;
 const DECIMAL_PATTERN = /^\d+(\.\d{1,2})?$/;
 
 type ValidationResult = {
