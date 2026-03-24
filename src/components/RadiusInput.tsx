@@ -1,7 +1,7 @@
 "use client";
 
 const MIN_RADIUS = 0.1;
-const MAX_RADIUS = 200;
+const MAX_RADIUS = 50;
 const SLIDER_MAX = 50;
 const STEP = 0.1;
 
